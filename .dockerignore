@@ -1,0 +1,11 @@
+**
+!deploy/
+!deploy/Dockerfile.*
+!deploy/bootstrap_webui.py
+!deploy/picton-bear.png
+!requirements/
+!requirements/mcp.txt
+!picton_graph/
+!picton_graph/**
+**/__pycache__/
+**/*.pyc

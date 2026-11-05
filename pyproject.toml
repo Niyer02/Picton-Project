@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=65"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "picton-company-graph"
+version = "0.1.0"
+description = "Evidence-backed company relationships from SEC filings, exposed through MCP."
+readme = "README.md"
+requires-python = ">=3.11"
+dynamic = ["dependencies", "optional-dependencies"]
+
+[tool.setuptools.packages.find]
+include = ["picton_graph*"]
+
+[tool.setuptools.package-data]
+"picton_graph.mcp" = ["assets/*.html"]
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements/mcp.txt"]}
+
+[tool.setuptools.dynamic.optional-dependencies]
+research = {file = ["requirements/pipeline.txt"]}
+dev = {file = ["requirements/dev.txt"]}
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+extend-exclude = ["data", "benchmarks", ".playwright-mcp"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]

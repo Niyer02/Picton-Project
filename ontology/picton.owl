@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xml:base="http://www.semanticweb.org/niyer/ontologies/2026/11/picton-interview">
+
+    <owl:Ontology rdf:about="http://www.semanticweb.org/niyer/ontologies/2026/11/picton-interview">
+        <rdfs:label xml:lang="en">Picton interview ontology</rdfs:label>
+        <rdfs:comment xml:lang="en">A small ontology for describing companies in a semiconductor supply network, their products and services, supporting documents, topics, sectors, and events. The seven core classes are mutually disjoint except that Topic and Sector may overlap. These categories are not asserted to exhaust all possible entities.</rdfs:comment>
+    </owl:Ontology>
+
+    <owl:Class rdf:about="#Company">
+        <rdfs:label xml:lang="en">Company</rdfs:label>
+        <rdfs:comment xml:lang="en">A business organization represented as a single corporate entity in the supply network. The initial scope is the ten selected publicly traded companies. Supplier and customer are roles a company plays in particular relationships; the same company can play both roles.</rdfs:comment>
+        <owl:disjointWith rdf:resource="#Product"/>
+        <owl:disjointWith rdf:resource="#Service"/>
+        <owl:disjointWith rdf:resource="#SourceDocument"/>
+        <owl:disjointWith rdf:resource="#Topic"/>
+        <owl:disjointWith rdf:resource="#Sector"/>
+        <owl:disjointWith rdf:resource="#Event"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="#Product">
+        <rdfs:label xml:lang="en">Product</rdfs:label>
+        <rdfs:comment xml:lang="en">A physical good or named product family that a company designs, manufactures, offers, purchases, or uses, such as a memory chip or a lithography system. Work performed for a customer, such as manufacturing that product, is represented as a Service.</rdfs:comment>
+        <owl:disjointWith rdf:resource="#Service"/>
+        <owl:disjointWith rdf:resource="#SourceDocument"/>
+        <owl:disjointWith rdf:resource="#Topic"/>
+        <owl:disjointWith rdf:resource="#Sector"/>
+        <owl:disjointWith rdf:resource="#Event"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="#Service">
+        <rdfs:label xml:lang="en">Service</rdfs:label>
+        <rdfs:comment xml:lang="en">A commercially offered activity or capability, such as wafer fabrication, semiconductor packaging, or testing. This class represents the service offering, distinct from a physical product and from a particular performance or occurrence represented as an Event.</rdfs:comment>
+        <owl:disjointWith rdf:resource="#SourceDocument"/>
+        <owl:disjointWith rdf:resource="#Topic"/>
+        <owl:disjointWith rdf:resource="#Sector"/>
+        <owl:disjointWith rdf:resource="#Event"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="#SourceDocument">
+        <rdfs:label xml:lang="en">SourceDocument</rdfs:label>
+        <rdfs:comment xml:lang="en">A specific published document used as evidence for information extracted into the graph, such as a regulatory filing, earnings release, transcript, or news article. A source document is distinct from the companies, relationships, or events it describes.</rdfs:comment>
+        <owl:disjointWith rdf:resource="#Topic"/>
+        <owl:disjointWith rdf:resource="#Sector"/>
+        <owl:disjointWith rdf:resource="#Event"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="#Topic">
+        <rdfs:label xml:lang="en">Topic</rdfs:label>
+        <rdfs:comment xml:lang="en">A thematic concept used to describe the subject of a source document or the relevance of a company, product, service, or event, such as AI demand or export controls. Topic concepts are distinct from the entities and occurrences they describe. An industry category may also be a Topic. Sharing a topic does not by itself establish a supplier or customer relationship.</rdfs:comment>
+        <owl:disjointWith rdf:resource="#Event"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="#Sector">
+        <rdfs:label xml:lang="en">Sector</rdfs:label>
+        <rdfs:comment xml:lang="en">An economic sector or industry category used to classify a company's business activities, such as semiconductors. A sector describes a field of business rather than a supplier or customer role. The same category may also be used as a Topic when it is a subject of discussion.</rdfs:comment>
+        <owl:disjointWith rdf:resource="#Event"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="#Event">
+        <rdfs:label xml:lang="en">Event</rdfs:label>
+        <rdfs:comment xml:lang="en">A specific occurrence involving one or more companies at an identifiable time, such as an earnings announcement, guidance revision, or supply disruption. The time of the event is distinct from the publication time of a document reporting it.</rdfs:comment>
+    </owl:Class>
+
+    <owl:ObjectProperty rdf:about="#supplies_to">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
+        <rdfs:label xml:lang="en">supplies_to</rdfs:label>
+        <rdfs:comment xml:lang="en">Connects a supplier company to a direct customer company. A chain of suppliers does not establish a direct supply relationship. Product, service, and source details belong on the specific assertion as axiom annotations.</rdfs:comment>
+        <rdfs:domain rdf:resource="#Company"/>
+        <rdfs:range rdf:resource="#Company"/>
+        <owl:inverseOf rdf:resource="#buys_from"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="#buys_from">
+        <rdfs:label xml:lang="en">buys_from</rdfs:label>
+        <rdfs:comment xml:lang="en">Connects a customer company to a direct supplier company. Inverse of supplies_to.</rdfs:comment>
+        <rdfs:domain rdf:resource="#Company"/>
+        <rdfs:range rdf:resource="#Company"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="#competes_with">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#SymmetricProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
+        <rdfs:label xml:lang="en">competes_with</rdfs:label>
+        <rdfs:comment xml:lang="en">Connects two distinct companies that compete in at least one product or service market, as supported by a source document. Competition is mutual but does not propagate through chains of competitors. Companies may also have a supply relationship with each other. Preserve the competitive context in the evidence quote; shared sector or topic membership alone is insufficient evidence.</rdfs:comment>
+        <rdfs:domain rdf:resource="#Company"/>
+        <rdfs:range rdf:resource="#Company"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="#offers">
+        <rdfs:label xml:lang="en">offers</rdfs:label>
+        <rdfs:comment xml:lang="en">Connects a company to a product it offers commercially. This does not imply that the company physically manufactures the product or supplies it to any particular customer.</rdfs:comment>
+        <rdfs:domain rdf:resource="#Company"/>
+        <rdfs:range rdf:resource="#Product"/>
+        <owl:inverseOf rdf:resource="#offered_by"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="#offered_by">
+        <rdfs:label xml:lang="en">offered_by</rdfs:label>
+        <rdfs:comment xml:lang="en">Connects a product to a company that offers it commercially. Inverse of offers.</rdfs:comment>
+        <rdfs:domain rdf:resource="#Product"/>
+        <rdfs:range rdf:resource="#Company"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="#provides">
+        <rdfs:label xml:lang="en">provides</rdfs:label>
+        <rdfs:comment xml:lang="en">Connects a company to a service it provides commercially. This does not identify any particular customer receiving that service.</rdfs:comment>
+        <rdfs:domain rdf:resource="#Company"/>
+        <rdfs:range rdf:resource="#Service"/>
+        <owl:inverseOf rdf:resource="#provided_by"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="#provided_by">
+        <rdfs:label xml:lang="en">provided_by</rdfs:label>
+        <rdfs:comment xml:lang="en">Connects a service to a company that provides it commercially. Inverse of provides.</rdfs:comment>
+        <rdfs:domain rdf:resource="#Service"/>
+        <rdfs:range rdf:resource="#Company"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="#operates_in">
+        <rdfs:label xml:lang="en">operates_in</rdfs:label>
+        <rdfs:comment xml:lang="en">Connects a company to a sector in which it conducts business. A company may operate in more than one sector.</rdfs:comment>
+        <rdfs:domain rdf:resource="#Company"/>
+        <rdfs:range rdf:resource="#Sector"/>
+        <owl:inverseOf rdf:resource="#includes"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="#includes">
+        <rdfs:label xml:lang="en">includes</rdfs:label>
+        <rdfs:comment xml:lang="en">Connects a sector to a company that operates in it. Inverse of operates_in; this property describes sector membership rather than general containment.</rdfs:comment>
+        <rdfs:domain rdf:resource="#Sector"/>
+        <rdfs:range rdf:resource="#Company"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="#has_topic">
+        <rdfs:label xml:lang="en">has_topic</rdfs:label>
+        <rdfs:comment xml:lang="en">Connects a company, product, service, source document, or event to a relevant thematic concept. Shared topics do not establish supply relationships or measured economic exposure.</rdfs:comment>
+        <rdfs:domain>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="#Company"/>
+                    <rdf:Description rdf:about="#Product"/>
+                    <rdf:Description rdf:about="#Service"/>
+                    <rdf:Description rdf:about="#SourceDocument"/>
+                    <rdf:Description rdf:about="#Event"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:domain>
+        <rdfs:range rdf:resource="#Topic"/>
+        <owl:inverseOf rdf:resource="#topic_of"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="#topic_of">
+        <rdfs:label xml:lang="en">topic_of</rdfs:label>
+        <rdfs:comment xml:lang="en">Connects a thematic concept to a company, product, service, source document, or event to which it is relevant. Inverse of has_topic.</rdfs:comment>
+        <rdfs:domain rdf:resource="#Topic"/>
+        <rdfs:range>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="#Company"/>
+                    <rdf:Description rdf:about="#Product"/>
+                    <rdf:Description rdf:about="#Service"/>
+                    <rdf:Description rdf:about="#SourceDocument"/>
+                    <rdf:Description rdf:about="#Event"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:range>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="#concerns">
+        <rdfs:label xml:lang="en">concerns</rdfs:label>
+        <rdfs:comment xml:lang="en">Connects an event to a company that is a direct subject of that event. This does not imply that the event affected every connected company or caused a stock-price movement.</rdfs:comment>
+        <rdfs:domain rdf:resource="#Event"/>
+        <rdfs:range rdf:resource="#Company"/>
+        <owl:inverseOf rdf:resource="#subject_of"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="#subject_of">
+        <rdfs:label xml:lang="en">subject_of</rdfs:label>
+        <rdfs:comment xml:lang="en">Connects a company to an event of which it is a direct subject. Inverse of concerns.</rdfs:comment>
+        <rdfs:domain rdf:resource="#Company"/>
+        <rdfs:range rdf:resource="#Event"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="#reports">
+        <rdfs:label xml:lang="en">reports</rdfs:label>
+        <rdfs:comment xml:lang="en">Connects a source document to an event it describes.</rdfs:comment>
+        <rdfs:domain rdf:resource="#SourceDocument"/>
+        <rdfs:range rdf:resource="#Event"/>
+        <owl:inverseOf rdf:resource="#reported_in"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="#reported_in">
+        <rdfs:label xml:lang="en">reported_in</rdfs:label>
+        <rdfs:comment xml:lang="en">Connects an event to a source document describing it. Inverse of reports.</rdfs:comment>
+        <rdfs:domain rdf:resource="#Event"/>
+        <rdfs:range rdf:resource="#SourceDocument"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="#mentions">
+        <rdfs:label xml:lang="en">mentions</rdfs:label>
+        <rdfs:comment xml:lang="en">Connects a source document to a company, product, service, or sector it explicitly references. A mention alone does not establish a supply relationship.</rdfs:comment>
+        <rdfs:domain rdf:resource="#SourceDocument"/>
+        <rdfs:range>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="#Company"/>
+                    <rdf:Description rdf:about="#Product"/>
+                    <rdf:Description rdf:about="#Service"/>
+                    <rdf:Description rdf:about="#Sector"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:range>
+        <owl:inverseOf rdf:resource="#mentioned_in"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="#mentioned_in">
+        <rdfs:label xml:lang="en">mentioned_in</rdfs:label>
+        <rdfs:comment xml:lang="en">Connects a company, product, service, or sector to a source document that explicitly references it. Inverse of mentions.</rdfs:comment>
+        <rdfs:domain>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="#Company"/>
+                    <rdf:Description rdf:about="#Product"/>
+                    <rdf:Description rdf:about="#Service"/>
+                    <rdf:Description rdf:about="#Sector"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:domain>
+        <rdfs:range rdf:resource="#SourceDocument"/>
+    </owl:ObjectProperty>
+
+    <owl:DatatypeProperty rdf:about="#ticker">
+        <rdfs:label xml:lang="en">ticker</rdfs:label>
+        <rdfs:comment xml:lang="en">The ticker symbol of the company's selected stock listing used in the analysis, interpreted together with exchange. This is not a globally unique or permanent company identifier.</rdfs:comment>
+        <rdfs:domain rdf:resource="#Company"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+
+    <owl:DatatypeProperty rdf:about="#exchange">
+        <rdfs:label xml:lang="en">exchange</rdfs:label>
+        <rdfs:comment xml:lang="en">The stock exchange for the company's selected listing used in the analysis, corresponding to ticker.</rdfs:comment>
+        <rdfs:domain rdf:resource="#Company"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+
+    <owl:DatatypeProperty rdf:about="#url">
+        <rdfs:label xml:lang="en">url</rdfs:label>
+        <rdfs:comment xml:lang="en">A URL locating the source document used as evidence.</rdfs:comment>
+        <rdfs:domain rdf:resource="#SourceDocument"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#anyURI"/>
+    </owl:DatatypeProperty>
+
+    <owl:DatatypeProperty rdf:about="#published_at">
+        <rdfs:label xml:lang="en">published_at</rdfs:label>
+        <rdfs:comment xml:lang="en">The publication date and time of the source document, distinct from the time of an event it reports. Preserve the timezone when known and do not invent a time when only a date is available.</rdfs:comment>
+        <rdfs:domain rdf:resource="#SourceDocument"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+    </owl:DatatypeProperty>
+
+    <owl:DatatypeProperty rdf:about="#occurred_at">
+        <rdfs:label xml:lang="en">occurred_at</rdfs:label>
+        <rdfs:comment xml:lang="en">The date and time the event occurred. For an earnings announcement, use the public release time to align stock returns with the appropriate trading session. Preserve the timezone when known and do not invent a time when only a date is available.</rdfs:comment>
+        <rdfs:domain rdf:resource="#Event"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+    </owl:DatatypeProperty>
+
+    <owl:DatatypeProperty rdf:about="#event_type">
+        <rdfs:label xml:lang="en">event_type</rdfs:label>
+        <rdfs:comment xml:lang="en">A category describing the event, such as earnings_miss, guidance_cut, or supply_disruption. These examples are not an exhaustive list.</rdfs:comment>
+        <rdfs:domain rdf:resource="#Event"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+
+    <owl:AnnotationProperty rdf:about="#supported_by">
+        <rdfs:label xml:lang="en">supported_by</rdfs:label>
+        <rdfs:comment xml:lang="en">The IRI of a SourceDocument individual supporting the annotated relationship assertion. Attach this evidence to the specific assertion rather than to the company in general.</rdfs:comment>
+    </owl:AnnotationProperty>
+
+    <owl:AnnotationProperty rdf:about="#evidence_text">
+        <rdfs:label xml:lang="en">evidence_text</rdfs:label>
+        <rdfs:comment xml:lang="en">An exact quote from the supporting source document that provides evidence for the annotated relationship assertion. Store the quote as a text literal.</rdfs:comment>
+    </owl:AnnotationProperty>
+
+    <owl:AnnotationProperty rdf:about="#supplied_product">
+        <rdfs:label xml:lang="en">supplied_product</rdfs:label>
+        <rdfs:comment xml:lang="en">The IRI of a Product individual explicitly identified by the source as supplied in the annotated supply relationship. Omit this annotation when the source does not identify the product; a supplier's general product offerings are insufficient evidence.</rdfs:comment>
+    </owl:AnnotationProperty>
+
+    <owl:AnnotationProperty rdf:about="#supplied_service">
+        <rdfs:label xml:lang="en">supplied_service</rdfs:label>
+        <rdfs:comment xml:lang="en">The IRI of a Service individual explicitly identified by the source as supplied in the annotated supply relationship. Omit this annotation when the source does not identify the service; a supplier's general service offerings are insufficient evidence.</rdfs:comment>
+    </owl:AnnotationProperty>
+
+</rdf:RDF>

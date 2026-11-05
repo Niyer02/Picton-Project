@@ -1,0 +1,504 @@
+{
+  "classes": {
+    "Company": {
+      "iri": "http://www.semanticweb.org/niyer/ontologies/2026/11/picton-interview#Company",
+      "label": "Company",
+      "label_language": "en",
+      "description": "A business organization represented as a single corporate entity in the supply network. The initial scope is the ten selected publicly traded companies. Supplier and customer are roles a company plays in particular relationships; the same company can play both roles.",
+      "description_language": "en"
+    },
+    "Event": {
+      "iri": "http://www.semanticweb.org/niyer/ontologies/2026/11/picton-interview#Event",
+      "label": "Event",
+      "label_language": "en",
+      "description": "A specific occurrence involving one or more companies at an identifiable time, such as an earnings announcement, guidance revision, or supply disruption. The time of the event is distinct from the publication time of a document reporting it.",
+      "description_language": "en"
+    },
+    "Product": {
+      "iri": "http://www.semanticweb.org/niyer/ontologies/2026/11/picton-interview#Product",
+      "label": "Product",
+      "label_language": "en",
+      "description": "A physical good or named product family that a company designs, manufactures, offers, purchases, or uses, such as a memory chip or a lithography system. Work performed for a customer, such as manufacturing that product, is represented as a Service.",
+      "description_language": "en"
+    },
+    "Sector": {
+      "iri": "http://www.semanticweb.org/niyer/ontologies/2026/11/picton-interview#Sector",
+      "label": "Sector",
+      "label_language": "en",
+      "description": "An economic sector or industry category used to classify a company's business activities, such as semiconductors. A sector describes a field of business rather than a supplier or customer role. The same category may also be used as a Topic when it is a subject of discussion.",
+      "description_language": "en"
+    },
+    "Service": {
+      "iri": "http://www.semanticweb.org/niyer/ontologies/2026/11/picton-interview#Service",
+      "label": "Service",
+      "label_language": "en",
+      "description": "A commercially offered activity or capability, such as wafer fabrication, semiconductor packaging, or testing. This class represents the service offering, distinct from a physical product and from a particular performance or occurrence represented as an Event.",
+      "description_language": "en"
+    },
+    "SourceDocument": {
+      "iri": "http://www.semanticweb.org/niyer/ontologies/2026/11/picton-interview#SourceDocument",
+      "label": "SourceDocument",
+      "label_language": "en",
+      "description": "A specific published document used as evidence for information extracted into the graph, such as a regulatory filing, earnings release, transcript, or news article. A source document is distinct from the companies, relationships, or events it describes.",
+      "description_language": "en"
+    },
+    "Topic": {
+      "iri": "http://www.semanticweb.org/niyer/ontologies/2026/11/picton-interview#Topic",
+      "label": "Topic",
+      "label_language": "en",
+      "description": "A thematic concept used to describe the subject of a source document or the relevance of a company, product, service, or event, such as AI demand or export controls. Topic concepts are distinct from the entities and occurrences they describe. An industry category may also be a Topic. Sharing a topic does not by itself establish a supplier or customer relationship.",
+      "description_language": "en"
+    }
+  },
+  "relationships": {
+    "buys_from": {
+      "iri": "http://www.semanticweb.org/niyer/ontologies/2026/11/picton-interview#buys_from",
+      "label": "buys_from",
+      "label_language": "en",
+      "description": "Connects a customer company to a direct supplier company. Inverse of supplies_to.",
+      "description_language": "en",
+      "domain_any_of": [
+        "Company"
+      ],
+      "range_any_of": [
+        "Company"
+      ],
+      "inverse": "supplies_to",
+      "irreflexive": true
+    },
+    "competes_with": {
+      "iri": "http://www.semanticweb.org/niyer/ontologies/2026/11/picton-interview#competes_with",
+      "label": "competes_with",
+      "label_language": "en",
+      "description": "Connects two distinct companies that compete in at least one product or service market, as supported by a source document. Competition is mutual but does not propagate through chains of competitors. Companies may also have a supply relationship with each other. Preserve the competitive context in the evidence quote; shared sector or topic membership alone is insufficient evidence.",
+      "description_language": "en",
+      "domain_any_of": [
+        "Company"
+      ],
+      "range_any_of": [
+        "Company"
+      ],
+      "irreflexive": true,
+      "symmetric": true,
+      "inverse": "competes_with"
+    },
+    "concerns": {
+      "iri": "http://www.semanticweb.org/niyer/ontologies/2026/11/picton-interview#concerns",
+      "label": "concerns",
+      "label_language": "en",
+      "description": "Connects an event to a company that is a direct subject of that event. This does not imply that the event affected every connected company or caused a stock-price movement.",
+      "description_language": "en",
+      "domain_any_of": [
+        "Event"
+      ],
+      "range_any_of": [
+        "Company"
+      ],
+      "inverse": "subject_of"
+    },
+    "has_topic": {
+      "iri": "http://www.semanticweb.org/niyer/ontologies/2026/11/picton-interview#has_topic",
+      "label": "has_topic",
+      "label_language": "en",
+      "description": "Connects a company, product, service, source document, or event to a relevant thematic concept. Shared topics do not establish supply relationships or measured economic exposure.",
+      "description_language": "en",
+      "domain_any_of": [
+        "Company",
+        "Event",
+        "Product",
+        "Service",
+        "SourceDocument"
+      ],
+      "range_any_of": [
+        "Topic"
+      ],
+      "inverse": "topic_of"
+    },
+    "includes": {
+      "iri": "http://www.semanticweb.org/niyer/ontologies/2026/11/picton-interview#includes",
+      "label": "includes",
+      "label_language": "en",
+      "description": "Connects a sector to a company that operates in it. Inverse of operates_in; this property describes sector membership rather than general containment.",
+      "description_language": "en",
+      "domain_any_of": [
+        "Sector"
+      ],
+      "range_any_of": [
+        "Company"
+      ],
+      "inverse": "operates_in"
+    },
+    "mentioned_in": {
+      "iri": "http://www.semanticweb.org/niyer/ontologies/2026/11/picton-interview#mentioned_in",
+      "label": "mentioned_in",
+      "label_language": "en",
+      "description": "Connects a company, product, service, or sector to a source document that explicitly references it. Inverse of mentions.",
+      "description_language": "en",
+      "domain_any_of": [
+        "Company",
+        "Product",
+        "Sector",
+        "Service"
+      ],
+      "range_any_of": [
+        "SourceDocument"
+      ],
+      "inverse": "mentions"
+    },
+    "mentions": {
+      "iri": "http://www.semanticweb.org/niyer/ontologies/2026/11/picton-interview#mentions",
+      "label": "mentions",
+      "label_language": "en",
+      "description": "Connects a source document to a company, product, service, or sector it explicitly references. A mention alone does not establish a supply relationship.",
+      "description_language": "en",
+      "domain_any_of": [
+        "SourceDocument"
+      ],
+      "range_any_of": [
+        "Company",
+        "Product",
+        "Sector",
+        "Service"
+      ],
+      "inverse": "mentioned_in"
+    },
+    "offered_by": {
+      "iri": "http://www.semanticweb.org/niyer/ontologies/2026/11/picton-interview#offered_by",
+      "label": "offered_by",
+      "label_language": "en",
+      "description": "Connects a product to a company that offers it commercially. Inverse of offers.",
+      "description_language": "en",
+      "domain_any_of": [
+        "Product"
+      ],
+      "range_any_of": [
+        "Company"
+      ],
+      "inverse": "offers"
+    },
+    "offers": {
+      "iri": "http://www.semanticweb.org/niyer/ontologies/2026/11/picton-interview#offers",
+      "label": "offers",
+      "label_language": "en",
+      "description": "Connects a company to a product it offers commercially. This does not imply that the company physically manufactures the product or supplies it to any particular customer.",
+      "description_language": "en",
+      "domain_any_of": [
+        "Company"
+      ],
+      "range_any_of": [
+        "Product"
+      ],
+      "inverse": "offered_by"
+    },
+    "operates_in": {
+      "iri": "http://www.semanticweb.org/niyer/ontologies/2026/11/picton-interview#operates_in",
+      "label": "operates_in",
+      "label_language": "en",
+      "description": "Connects a company to a sector in which it conducts business. A company may operate in more than one sector.",
+      "description_language": "en",
+      "domain_any_of": [
+        "Company"
+      ],
+      "range_any_of": [
+        "Sector"
+      ],
+      "inverse": "includes"
+    },
+    "provided_by": {
+      "iri": "http://www.semanticweb.org/niyer/ontologies/2026/11/picton-interview#provided_by",
+      "label": "provided_by",
+      "label_language": "en",
+      "description": "Connects a service to a company that provides it commercially. Inverse of provides.",
+      "description_language": "en",
+      "domain_any_of": [
+        "Service"
+      ],
+      "range_any_of": [
+        "Company"
+      ],
+      "inverse": "provides"
+    },
+    "provides": {
+      "iri": "http://www.semanticweb.org/niyer/ontologies/2026/11/picton-interview#provides",
+      "label": "provides",
+      "label_language": "en",
+      "description": "Connects a company to a service it provides commercially. This does not identify any particular customer receiving that service.",
+      "description_language": "en",
+      "domain_any_of": [
+        "Company"
+      ],
+      "range_any_of": [
+        "Service"
+      ],
+      "inverse": "provided_by"
+    },
+    "reported_in": {
+      "iri": "http://www.semanticweb.org/niyer/ontologies/2026/11/picton-interview#reported_in",
+      "label": "reported_in",
+      "label_language": "en",
+      "description": "Connects an event to a source document describing it. Inverse of reports.",
+      "description_language": "en",
+      "domain_any_of": [
+        "Event"
+      ],
+      "range_any_of": [
+        "SourceDocument"
+      ],
+      "inverse": "reports"
+    },
+    "reports": {
+      "iri": "http://www.semanticweb.org/niyer/ontologies/2026/11/picton-interview#reports",
+      "label": "reports",
+      "label_language": "en",
+      "description": "Connects a source document to an event it describes.",
+      "description_language": "en",
+      "domain_any_of": [
+        "SourceDocument"
+      ],
+      "range_any_of": [
+        "Event"
+      ],
+      "inverse": "reported_in"
+    },
+    "subject_of": {
+      "iri": "http://www.semanticweb.org/niyer/ontologies/2026/11/picton-interview#subject_of",
+      "label": "subject_of",
+      "label_language": "en",
+      "description": "Connects a company to an event of which it is a direct subject. Inverse of concerns.",
+      "description_language": "en",
+      "domain_any_of": [
+        "Company"
+      ],
+      "range_any_of": [
+        "Event"
+      ],
+      "inverse": "concerns"
+    },
+    "supplies_to": {
+      "iri": "http://www.semanticweb.org/niyer/ontologies/2026/11/picton-interview#supplies_to",
+      "label": "supplies_to",
+      "label_language": "en",
+      "description": "Connects a supplier company to a direct customer company. A chain of suppliers does not establish a direct supply relationship. Product, service, and source details belong on the specific assertion as axiom annotations.",
+      "description_language": "en",
+      "domain_any_of": [
+        "Company"
+      ],
+      "range_any_of": [
+        "Company"
+      ],
+      "inverse": "buys_from",
+      "irreflexive": true
+    },
+    "topic_of": {
+      "iri": "http://www.semanticweb.org/niyer/ontologies/2026/11/picton-interview#topic_of",
+      "label": "topic_of",
+      "label_language": "en",
+      "description": "Connects a thematic concept to a company, product, service, source document, or event to which it is relevant. Inverse of has_topic.",
+      "description_language": "en",
+      "domain_any_of": [
+        "Topic"
+      ],
+      "range_any_of": [
+        "Company",
+        "Event",
+        "Product",
+        "Service",
+        "SourceDocument"
+      ],
+      "inverse": "has_topic"
+    }
+  },
+  "data_properties": {
+    "event_type": {
+      "iri": "http://www.semanticweb.org/niyer/ontologies/2026/11/picton-interview#event_type",
+      "label": "event_type",
+      "label_language": "en",
+      "description": "A category describing the event, such as earnings_miss, guidance_cut, or supply_disruption. These examples are not an exhaustive list.",
+      "description_language": "en",
+      "domain_any_of": [
+        "Event"
+      ],
+      "datatype": "http://www.w3.org/2001/XMLSchema#string"
+    },
+    "exchange": {
+      "iri": "http://www.semanticweb.org/niyer/ontologies/2026/11/picton-interview#exchange",
+      "label": "exchange",
+      "label_language": "en",
+      "description": "The stock exchange for the company's selected listing used in the analysis, corresponding to ticker.",
+      "description_language": "en",
+      "domain_any_of": [
+        "Company"
+      ],
+      "datatype": "http://www.w3.org/2001/XMLSchema#string"
+    },
+    "occurred_at": {
+      "iri": "http://www.semanticweb.org/niyer/ontologies/2026/11/picton-interview#occurred_at",
+      "label": "occurred_at",
+      "label_language": "en",
+      "description": "The date and time the event occurred. For an earnings announcement, use the public release time to align stock returns with the appropriate trading session. Preserve the timezone when known and do not invent a time when only a date is available.",
+      "description_language": "en",
+      "domain_any_of": [
+        "Event"
+      ],
+      "datatype": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "published_at": {
+      "iri": "http://www.semanticweb.org/niyer/ontologies/2026/11/picton-interview#published_at",
+      "label": "published_at",
+      "label_language": "en",
+      "description": "The publication date and time of the source document, distinct from the time of an event it reports. Preserve the timezone when known and do not invent a time when only a date is available.",
+      "description_language": "en",
+      "domain_any_of": [
+        "SourceDocument"
+      ],
+      "datatype": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "ticker": {
+      "iri": "http://www.semanticweb.org/niyer/ontologies/2026/11/picton-interview#ticker",
+      "label": "ticker",
+      "label_language": "en",
+      "description": "The ticker symbol of the company's selected stock listing used in the analysis, interpreted together with exchange. This is not a globally unique or permanent company identifier.",
+      "description_language": "en",
+      "domain_any_of": [
+        "Company"
+      ],
+      "datatype": "http://www.w3.org/2001/XMLSchema#string"
+    },
+    "url": {
+      "iri": "http://www.semanticweb.org/niyer/ontologies/2026/11/picton-interview#url",
+      "label": "url",
+      "label_language": "en",
+      "description": "A URL locating the source document used as evidence.",
+      "description_language": "en",
+      "domain_any_of": [
+        "SourceDocument"
+      ],
+      "datatype": "http://www.w3.org/2001/XMLSchema#anyURI"
+    }
+  },
+  "annotations": {
+    "evidence_text": {
+      "iri": "http://www.semanticweb.org/niyer/ontologies/2026/11/picton-interview#evidence_text",
+      "label": "evidence_text",
+      "label_language": "en",
+      "description": "An exact quote from the supporting source document that provides evidence for the annotated relationship assertion. Store the quote as a text literal.",
+      "description_language": "en",
+      "value_type": "string"
+    },
+    "supplied_product": {
+      "iri": "http://www.semanticweb.org/niyer/ontologies/2026/11/picton-interview#supplied_product",
+      "label": "supplied_product",
+      "label_language": "en",
+      "description": "The IRI of a Product individual explicitly identified by the source as supplied in the annotated supply relationship. Omit this annotation when the source does not identify the product; a supplier's general product offerings are insufficient evidence.",
+      "description_language": "en",
+      "reference_class": "Product"
+    },
+    "supplied_service": {
+      "iri": "http://www.semanticweb.org/niyer/ontologies/2026/11/picton-interview#supplied_service",
+      "label": "supplied_service",
+      "label_language": "en",
+      "description": "The IRI of a Service individual explicitly identified by the source as supplied in the annotated supply relationship. Omit this annotation when the source does not identify the service; a supplier's general service offerings are insufficient evidence.",
+      "description_language": "en",
+      "reference_class": "Service"
+    },
+    "supported_by": {
+      "iri": "http://www.semanticweb.org/niyer/ontologies/2026/11/picton-interview#supported_by",
+      "label": "supported_by",
+      "label_language": "en",
+      "description": "The IRI of a SourceDocument individual supporting the annotated relationship assertion. Attach this evidence to the specific assertion rather than to the company in general.",
+      "description_language": "en",
+      "reference_class": "SourceDocument"
+    }
+  },
+  "ontology": {
+    "iri": "http://www.semanticweb.org/niyer/ontologies/2026/11/picton-interview",
+    "label": "Picton interview ontology",
+    "label_language": "en",
+    "description": "A small ontology for describing companies in a semiconductor supply network, their products and services, supporting documents, topics, sectors, and events. The seven core classes are mutually disjoint except that Topic and Sector may overlap. These categories are not asserted to exhaust all possible entities.",
+    "description_language": "en",
+    "source_sha256": "0a3b4b05cd82c54ad3aa9962d58fa04e0a7d5754e4b775b3044b722010fe184d",
+    "source_triples": 226
+  },
+  "disjoint_classes": [
+    [
+      "Company",
+      "Event"
+    ],
+    [
+      "Company",
+      "Product"
+    ],
+    [
+      "Company",
+      "Sector"
+    ],
+    [
+      "Company",
+      "Service"
+    ],
+    [
+      "Company",
+      "SourceDocument"
+    ],
+    [
+      "Company",
+      "Topic"
+    ],
+    [
+      "Event",
+      "Product"
+    ],
+    [
+      "Event",
+      "Sector"
+    ],
+    [
+      "Event",
+      "Service"
+    ],
+    [
+      "Event",
+      "SourceDocument"
+    ],
+    [
+      "Event",
+      "Topic"
+    ],
+    [
+      "Product",
+      "Sector"
+    ],
+    [
+      "Product",
+      "Service"
+    ],
+    [
+      "Product",
+      "SourceDocument"
+    ],
+    [
+      "Product",
+      "Topic"
+    ],
+    [
+      "Sector",
+      "Service"
+    ],
+    [
+      "Sector",
+      "SourceDocument"
+    ],
+    [
+      "Service",
+      "SourceDocument"
+    ],
+    [
+      "Service",
+      "Topic"
+    ],
+    [
+      "SourceDocument",
+      "Topic"
+    ]
+  ]
+}

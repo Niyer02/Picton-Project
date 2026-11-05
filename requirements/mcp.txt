@@ -1,0 +1,4 @@
+neo4j==5.28.4
+mcp==2.3.0
+yfinance==1.8.0
+duckdb==2.0.0

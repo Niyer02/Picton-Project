@@ -1,0 +1,16 @@
+.env
+.DS_Store
+.venv/
+__pycache__/
+data/
+.playwright-mcp/
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.env.*
+!.env.example
+deploy/seed/*.dump
+*.zip
+research-data.tar.gz

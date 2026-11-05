@@ -1,0 +1,8 @@
+FROM python:3.11-slim
+WORKDIR /app
+ENV PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1 XDG_CACHE_HOME=/tmp/picton-cache
+COPY requirements/mcp.txt requirements/mcp.txt
+RUN pip install --no-cache-dir -r requirements/mcp.txt
+COPY picton_graph/ picton_graph/
+USER 10001:10001
+CMD ["python", "-m", "picton_graph.mcp.server", "--transport", "streamable-http", "--host", "0.0.0.0", "--port", "8000"]

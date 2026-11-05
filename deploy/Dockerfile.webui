@@ -1,0 +1,24 @@
+FROM ghcr.io/open-webui/open-webui:v0.13.0-slim
+
+COPY deploy/bootstrap_webui.py /app/backend/picton_bootstrap.py
+COPY deploy/picton-bear.png picton_graph/integrations/openwebui_citations.py /app/backend/
+
+# Preserve existing excerpt selectors in the native citation modal's Content link.
+# shortcut: compiled v0.13.0 asset; remove when upstream preserves text fragments.
+RUN python - <<'PY'
+from hashlib import sha256
+from pathlib import Path
+path = Path('/app/build/_app/immutable/chunks/DRZDe0Yd.js')
+source = path.read_bytes()
+assert sha256(source).hexdigest() == '56b66ae9a5f5336b77c9f6ab421d2b1943eff1d56412560e93250f08e16714e9', 'Review citation patch for this Open WebUI build'
+before = b'if(!V||!se)return V;const Z=se.trim()'
+after = b'if(!V||!se||V.includes(":~:text="))return V;const Z=se.trim()'
+assert source.count(before) == 1
+path.write_bytes(source.replace(before, after))
+
+path = Path('/app/backend/start.sh')
+source = path.read_text()
+before = '# Launch uvicorn\n'
+assert source.count(before) == 1, 'Review bootstrap hook for this Open WebUI build'
+path.write_text(source.replace(before, 'WEBUI_SECRET_KEY="${WEBUI_SECRET_KEY:-}" python /app/backend/picton_bootstrap.py\n\n' + before))
+PY

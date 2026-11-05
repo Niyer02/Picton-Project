@@ -1,0 +1,52 @@
+{
+  "dataset_version": "1.1-draft",
+  "annotation_status": "assistant_curated_reviewed_draft",
+  "human_review": "pending",
+  "example_count": 20,
+  "split_counts": {
+    "train": 12,
+    "holdout": 4,
+    "validation": 4
+  },
+  "split_group": "filing issuer; no issuer or document crosses splits",
+  "unit": "exact contiguous excerpt from a stored masked chunk; not necessarily a full chunk",
+  "ontology_sha256": "3cfc4e3e012d21328c815a71918f712d4101f10c5ffe4fb5b2c410deb4644386",
+  "prompt_sha256_at_creation": "f32d84c7a487752ffbc26ba1017c9a24d48638409687f1883bd54844e07bbfcd",
+  "relationship_counts": {
+    "supplies_to": 8,
+    "provides": 5,
+    "mentions": 56,
+    "competes_with": 2,
+    "has_topic": 7,
+    "concerns": 14,
+    "reports": 9,
+    "offers": 4,
+    "operates_in": 1
+  },
+  "empty_examples": [
+    "gold_04",
+    "gold_16",
+    "gold_17"
+  ],
+  "files": {
+    "train.jsonl": "95ba2ef4bc4eff243df65449c50561601418b6dd3c73dfcdb0ee97efa71055c5",
+    "validation.jsonl": "79ee1f5a2fb9d1b440a85f6336f890a9412ee92af2ca16903c8053e81b87b787",
+    "holdout.jsonl": "fd81bdb629ae0da82ae8893c45f952c5cf3d5f8637176394c4f24a2324f6830c"
+  },
+  "output_format": "named-entities-v1",
+  "previous_format_files_sha256": {
+    "train.jsonl": "0e674642c577140ea64c9ba1ea152417b1967a07b4c54d5cb1ee9c7d1c05fae7",
+    "validation.jsonl": "ed276b768f7e27c88528dd88e3be9145ce3b77f06f9aa30b7b729ce3b44d4eba",
+    "holdout.jsonl": "33a904f5f2d4c759fb8ad4452946c5ac74ff74889294129710eec791ee5eefe2",
+    "manifest.json": "3a69ff2fd6b3e257c225003f4d13819cefcf50509432148cbe21de01d987cfb9",
+    "README.md": "832cd958c6d15fc9caa5cf2600534eb30386b1c45d3f324f3daf24c102a59c4b",
+    "review.md": "3bd0bab10bf167eea9954dcd1fee5b10509c12b862d51a2fc1ba9a353118fb5e"
+  },
+  "representation_migration": {
+    "from_dataset_version": "1.0-draft",
+    "change": "Representation only: remove entity IDs, use typed name endpoints, and name supplied products/services. Facts, evidence, annotations, provenance and split membership are unchanged.",
+    "historical_run": "f39fbdba-45c3-4915-adec-a0c1a7a91c51",
+    "previous_format_snapshot": "data/gepa/f39fbdba-45c3-4915-adec-a0c1a7a91c51/gold_snapshot",
+    "historical_results": "The completed GEPA run used dataset 1.0-draft with local entity IDs; its requests, scores and other historical artifacts are unchanged."
+  }
+}
